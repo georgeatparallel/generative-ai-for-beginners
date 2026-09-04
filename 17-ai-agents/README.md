@@ -196,6 +196,10 @@ async def main():
         url="https://search.parallel.ai/mcp",
         load_prompts=False,
         request_timeout=60,
+        # Use the text payload once; the server also returns it as structured content.
+        parse_tool_results=lambda result: "\n".join(
+            content.text for content in result.content if content.type == "text"
+        ),
     ) as web:
         print("Available tools:", [tool.name for tool in web.functions])
 
@@ -205,9 +209,7 @@ async def main():
             search_queries=["Microsoft Learn what are AI agents"],
             session_id=session_id,
         )
-        for content in search:
-            if content.type == "text":
-                print(content.text)
+        print(search)
 
         page = await web.call_tool(
             "web_fetch",
@@ -215,9 +217,7 @@ async def main():
             objective="Explain what Agent Framework does.",
             session_id=session_id,
         )
-        for content in page:
-            if content.type == "text":
-                print(content.text)
+        print(page)
 
 
 asyncio.run(main())
