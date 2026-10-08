@@ -213,7 +213,7 @@ async def main():
 
         page = await web.call_tool(
             "web_fetch",
-            urls=["https://learn.microsoft.com/agent-framework/"],
+            urls=["https://learn.microsoft.com/agent-framework/?WT.mc_id=academic-105485-koreyst"],
             objective="Explain what Agent Framework does.",
             session_id=session_id,
         )
